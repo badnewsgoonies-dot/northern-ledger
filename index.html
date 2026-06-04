@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="ledger">
+<html lang="en">
 <head>
 <style id="embedded-fonts">
 /* latin */
@@ -80,21 +80,13 @@
 <title>The Northern Ledger — TSX companies, every figure traced to its source</title>
 <style>
 :root{
-  --paper:#f4efe3; --paper2:#ece4d2; --card:#fffdf7; --ink:#1c1813; --ink2:#4a4337; --faint:#8c8270;
-  --rule:#dbd2bb; --accent:#1f6b52; --accent2:#a96a1f;
-  --pine:#1f6b52; --pine-bg:#e3ede4; --teal:#2d7d8a; --teal-bg:#e2ecee;
-  --amber:#a96a1f; --amber-bg:#f0e6d2; --ox:#8a2b2b; --ox-bg:#f1e0dd;
-  --grey:#8f8472; --grey-bg:#eae3d4;
-  --shadow:0 1px 0 rgba(0,0,0,.04),0 18px 44px -26px rgba(40,30,15,.5);
-  --bar:linear-gradient(90deg,#1f6b52,#2d7d8a);
-}
-html[data-theme="terminal"]{
-  --paper:#0c141c; --paper2:#121d28; --card:#0f1a24; --ink:#e9e3d3; --ink2:#a9b4ac; --faint:#5f7384;
-  --rule:#1f2e3b; --accent:#54c8a6; --accent2:#e0a64a;
-  --pine:#54c8a6; --pine-bg:#10261f; --teal:#56b6c8; --teal-bg:#0f2329; --amber:#e0a64a; --amber-bg:#241c0f;
-  --ox:#e0746f; --ox-bg:#2a1413; --grey:#7d8b97; --grey-bg:#16212c;
-  --shadow:0 1px 0 rgba(255,255,255,.03),0 22px 50px -28px rgba(0,0,0,.8);
-  --bar:linear-gradient(90deg,#54c8a6,#56b6c8);
+  --paper:#f1ead7; --paper2:#e8dec9; --card:#fbf6e8; --ink:#211c14; --ink2:#4d4537; --faint:#8a7e69;
+  --rule:#d8ccb1; --accent:#c9663d; --accent2:#a9722a;
+  --pine:#3f7350; --pine-bg:#e3ebdd; --teal:#4a6b86; --teal-bg:#e4e8ec;
+  --amber:#a9722a; --amber-bg:#efe4cd; --ox:#9a3b30; --ox-bg:#f1ddd6;
+  --grey:#8a7e69; --grey-bg:#e8dfcc;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 18px 44px -26px rgba(60,42,22,.42);
+  --bar:linear-gradient(90deg,#c9663d,#dd8a3e);
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--paper);color:var(--ink);
@@ -119,10 +111,6 @@ h1.title{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(34px,5vw,5
 .mast-row{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
 .mast-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 .dateline{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);text-align:right;letter-spacing:.04em;white-space:nowrap;line-height:1.7}
-.themebtn{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
-  border:1px solid var(--rule);background:var(--card);color:var(--ink2);padding:7px 12px;border-radius:20px;display:flex;gap:7px;align-items:center}
-.themebtn:hover{border-color:var(--accent)}
-.themebtn .sw{width:10px;height:10px;border-radius:50%;background:var(--accent)}
 
 /* stat strip */
 .stats{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule)}
@@ -147,7 +135,6 @@ nav.tabs{display:flex;gap:3px;margin:14px 0 18px;flex-wrap:wrap;align-items:cent
 .tab:hover{border-color:var(--faint);transform:translateY(-1px)}
 .tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .tab .pill{background:var(--accent);color:#fff;border-radius:10px;padding:0 6px;margin-left:6px;font-size:10px}
-html[data-theme="terminal"] .tab.on{color:#0c141c}
 
 /* layout */
 .app{display:grid;grid-template-columns:312px 1fr;gap:28px}
@@ -185,8 +172,7 @@ main{min-height:62vh}
 .badge.comp{background:var(--pine-bg);color:var(--pine);border-color:transparent}
 .addcmp{font-family:"IBM Plex Mono",monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;border:1px solid var(--accent);color:var(--accent);background:transparent;padding:8px 13px;border-radius:20px;white-space:nowrap;transition:all .15s}
 .addcmp:hover{background:var(--accent);color:#fff}
-html[data-theme="terminal"] .addcmp:hover{color:#0c141c}
-.addcmp.in{background:var(--accent);color:#fff}html[data-theme="terminal"] .addcmp.in{color:#0c141c}
+.addcmp.in{background:var(--accent);color:#fff}
 
 /* KPI strip */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:4px 0 8px}
@@ -203,13 +189,13 @@ html[data-theme="terminal"] .addcmp:hover{color:#0c141c}
 .chart-card{border:1px solid var(--rule);border-radius:8px;padding:16px 18px 10px;background:var(--card);box-shadow:var(--shadow);position:relative}
 .seg{display:inline-flex;border:1px solid var(--rule);border-radius:20px;overflow:hidden}
 .seg button{font-family:"IBM Plex Mono",monospace;font-size:11px;padding:6px 13px;border:none;background:transparent;color:var(--ink2);cursor:pointer}
-.seg button.on{background:var(--ink);color:var(--paper)}html[data-theme="terminal"] .seg button.on{color:#0c141c}
+.seg button.on{background:var(--ink);color:var(--paper)}
 .chart-legend{display:flex;gap:16px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink2);margin:10px 0 2px;flex-wrap:wrap}
 .chart-legend i{width:16px;height:3px;display:inline-block;vertical-align:middle;margin-right:6px;border-radius:2px}
 .chart-host{position:relative}
 svg.chart{width:100%;height:260px;display:block;overflow:visible}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:11px;padding:7px 10px;border-radius:5px;opacity:0;transition:opacity .1s;white-space:nowrap;z-index:5;box-shadow:0 8px 22px -8px rgba(0,0,0,.5)}
-.tip b{color:var(--accent2)}html[data-theme="terminal"] .tip{background:#000}
+.tip b{color:var(--accent2)}
 .gtxt{font-family:"IBM Plex Mono",monospace;font-size:9.5px;fill:var(--faint)}
 
 /* figures */
@@ -223,7 +209,7 @@ table.fig th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing
 .rowacts{display:flex;gap:12px;justify-content:flex-end}
 .trace-btn,.copy-btn{font-family:"IBM Plex Mono",monospace;font-size:11px;cursor:pointer;white-space:nowrap}
 .trace-btn{color:var(--teal);border:1px solid var(--teal);border-radius:14px;padding:3px 11px;font-weight:500}
-.trace-btn:hover{background:var(--teal);color:var(--paper)}html[data-theme="terminal"] .trace-btn:hover{color:#0c141c}
+.trace-btn:hover{background:var(--teal);color:var(--paper)}
 .copy-btn{color:var(--faint);border-bottom:1px dotted var(--faint)}
 .copy-btn.done{color:var(--pine);border-color:var(--pine)}
 .prov{background:var(--paper2);border-left:3px solid var(--accent);padding:12px 14px;margin:2px 0 6px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.75;border-radius:0 4px 4px 0}
@@ -311,7 +297,7 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
   .tag{font-size:15.5px;line-height:1.46}
   .mast-row{flex-direction:column;gap:13px}
   .mast-right{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px;width:100%}
-  .mast-right .themebtn,.mast-right .guidebtn{margin-top:0}
+  .mast-right .guidebtn{margin-top:0}
   .dateline{order:3;width:100%;text-align:left;white-space:normal;font-size:10px;line-height:1.6;margin-top:1px;letter-spacing:.05em}
 
   /* stat strip — clean 2-up grid */
@@ -417,7 +403,6 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
         <div class="tag">Public companies of the Toronto Stock Exchange — every figure traced to the filing it came from, and signed so it can’t be quietly changed.</div>
       </div>
       <div class="mast-right">
-        <button class="themebtn" id="themebtn"><span class="sw"></span><span id="themelab">Terminal mode</span></button>
         <button class="guidebtn" id="guidebtn"><span class="qm" style="margin:0">?</span> How to read these numbers</button>
         <div class="dateline" id="dateline"></div>
       </div>
@@ -597,9 +582,6 @@ readHash();
 
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1600);}
 
-/* ---- theme ---- */
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);$('#themelab').textContent=t==='ledger'?'Terminal mode':'Ledger mode';}
-$('#themebtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme');setTheme(cur==='ledger'?'terminal':'ledger');if(S.view==='companies'&&S.sel)drawDetail();if(S.view==='rankings')render();if(S.view==='compare')render();};
 $('#guidebtn').onclick=openGuide;
 
 /* ---- header ---- */
@@ -732,7 +714,7 @@ function companyDetail(c){
    let defs;
    if(S.chartMode==='income')defs=[['revenue','Revenue','var(--pine)',true],['net_income','Net income','var(--amber)',false],['operating_income','Operating income','var(--teal)',false]];
    else if(S.chartMode==='balance')defs=[['assets','Total assets','var(--teal)',true],['equity','Equity','var(--pine)',false]];
-   else defs=[['eps_diluted','Diluted EPS','#8a2b6b',true]];
+   else defs=[['eps_diluted','Diluted EPS','var(--accent)',true]];
    const series=defs.filter(d=>c.series[d[0]]&&c.series[d[0]].length).map(d=>({key:d[0],name:d[1],color:d[2],fill:d[3],pts:c.series[d[0]].map(p=>[p[0],p[1]])}));
    const unit=S.chartMode==='pershare'?(c.cur+'/share'):c.cur;
    lg.innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${s.name}</span>`).join('')+`<span style="color:var(--faint)">native ${c.cur}</span>`;
