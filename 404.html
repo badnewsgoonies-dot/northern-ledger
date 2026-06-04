@@ -268,6 +268,36 @@ table.grid tbody tr:hover td{background:var(--paper2)}
 footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);line-height:1.7}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);font-family:"IBM Plex Mono",monospace;font-size:12px;padding:11px 18px;border-radius:24px;opacity:0;transition:all .25s;z-index:50;box-shadow:0 12px 30px -10px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* metric help + field guide */
+.qm{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--faint);color:var(--faint);font-family:"IBM Plex Mono",monospace;font-size:10px;line-height:1;cursor:pointer;margin-left:6px;vertical-align:middle;user-select:none;flex:none}
+.qm:hover{border-color:var(--accent);color:var(--accent)}
+.kl .qm{width:13px;height:13px;font-size:9px}
+.pop-back{position:absolute;inset:0;z-index:60}
+.pop{position:absolute;z-index:61;max-width:300px;background:var(--card);color:var(--ink);border:1px solid var(--ink);border-radius:8px;padding:12px 14px;box-shadow:0 16px 40px -12px rgba(0,0,0,.5);font-size:13.5px;line-height:1.5}
+.pop .pt{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.guidebtn{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:1px solid var(--rule);background:var(--paper2);color:var(--ink2);border-radius:20px;padding:7px 13px;display:inline-flex;align-items:center;gap:7px;margin-top:8px}
+.guidebtn:hover{border-color:var(--accent);color:var(--accent)}
+.drawer-back{position:fixed;inset:0;background:rgba(10,8,4,.45);z-index:70;opacity:0;transition:opacity .2s}
+.drawer-back.show{opacity:1}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(560px,92vw);background:var(--paper);border-left:3px double var(--ink);box-shadow:-20px 0 50px -20px rgba(0,0,0,.5);z-index:71;transform:translateX(100%);transition:transform .26s cubic-bezier(.2,.7,.2,1);overflow-y:auto;padding:22px 26px 60px}
+.drawer.show{transform:translateX(0)}
+.drawer .dclose{position:absolute;top:16px;right:18px;font-family:"IBM Plex Mono",monospace;font-size:12px;cursor:pointer;color:var(--faint);border:1px solid var(--rule);border-radius:16px;padding:4px 11px}
+.drawer .dclose:hover{color:var(--ox);border-color:var(--ox)}
+.drawer h2{font-family:"Fraunces",serif;font-weight:900;font-size:29px;margin:4px 36px 2px 0;letter-spacing:-.01em;line-height:1.05}
+.drawer .dsub{font-family:"Newsreader",serif;font-style:italic;color:var(--ink2);margin-bottom:14px}
+.gsec{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--rule);padding-bottom:6px;margin:22px 0 10px}
+.gmind{font-size:14px;line-height:1.5;color:var(--ink);padding:9px 12px 9px 14px;border-left:3px solid var(--accent);margin-bottom:8px;background:var(--paper2);border-radius:0 4px 4px 0}
+.grow{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:13.5px;line-height:1.46}
+.grow .gk{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink);font-size:12.5px}
+.grow .gk .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.gnote{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);line-height:1.7;margin-top:18px;border-top:1px solid var(--rule);padding-top:12px}
+.secnote{display:flex;gap:10px;align-items:flex-start;background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:11px 14px;margin:2px 0 8px;font-size:13.5px;line-height:1.5;color:var(--ink2)}
+.secnote .si{flex:none;width:9px;height:9px;border-radius:50%;margin-top:5px}
+.secnote b{color:var(--ink)}
+.qflag{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--amber) 12%,transparent);border:1px solid color-mix(in srgb,var(--amber) 50%,var(--rule));border-radius:6px;padding:11px 14px;margin:0 0 8px;font-size:13px;line-height:1.5;color:var(--ink2)}
+.qflag .qi{flex:none;font-size:14px;color:var(--amber)}
+.qflag b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -281,6 +311,7 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
       </div>
       <div class="mast-right">
         <button class="themebtn" id="themebtn"><span class="sw"></span><span id="themelab">Terminal mode</span></button>
+        <button class="guidebtn" id="guidebtn"><span class="qm" style="margin:0">?</span> How to read these numbers</button>
         <div class="dateline" id="dateline"></div>
       </div>
     </div>
@@ -302,6 +333,7 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
     THE NORTHERN LEDGER · read-only window onto the GCOS / Briefcase evidence substrate ·
     figures are claims admitted to a signed, append-only chain and projected here ·
     sources: SEC EDGAR XBRL (interlisted filers), issuer results releases (SEDAR-only), iShares XIC roster, Bank of Canada FX · not investment advice.
+    <br><br><span style="opacity:.9">New here? The <b style="color:var(--ink2)">“How to read these numbers”</b> guide up top explains what each figure means and what actually matters. These are rules of thumb, not advice — treat confident tips, including ours, with healthy skepticism.</span>
   </footer>
 </div>
 <div class="tip" id="tip"></div>
@@ -340,6 +372,95 @@ const METRIC_LABEL={revenue:'Revenue',net_income:'Net income',operating_income:'
  assets:'Total assets',liabilities:'Total liabilities',equity:'Equity',cash:'Cash & equivalents',
  eps_diluted:'Diluted EPS',shares_outstanding:'Shares outstanding'};
 const HEADLINE=['revenue','net_income','operating_income','gross_profit','cash_from_ops','operating_expenses','assets','liabilities','equity','cash','eps_diluted','shares_outstanding'];
+
+/* ---- field guide: all tip copy in one place ---- */
+const GUIDE={
+ metric:{
+  revenue:"The total money coming in from sales. Growth only counts if it turns into profit and cash — chasing revenue alone can hide losses.",
+  net_income:"The bottom-line profit after all costs. It's the headline number, but also the easiest to flatter with accounting choices — always sanity-check it against cash flow.",
+  operating_income:"Profit from the core business, before interest and tax. Often cleaner than net income because it strips out financing and one-off effects.",
+  gross_profit:"Sales minus the direct cost of making the product. A high, steady gross margin is a sign of pricing power.",
+  cash_from_ops:"The actual cash the business generated from operations. Much harder to fake than profit — if profit is consistently higher than this, be curious why.",
+  operating_expenses:"The cost of running the business. Watch it against revenue — expenses rising faster than sales squeeze profit.",
+  assets:"Everything the company owns. Means a lot for banks and asset-heavy firms, much less for asset-light software companies.",
+  liabilities:"Everything the company owes. Read it next to assets and cash flow — debt is what turns a bad year into a crisis.",
+  equity:"What's left for shareholders after debts — the company's 'book value.' A useful yardstick for banks, less so for brand- or software-driven firms.",
+  cash:"Cash and equivalents on hand — a buffer for hard times and options in good ones.",
+  eps_diluted:"Profit per share, counting all shares that could exist. Can rise from real growth — or just from buying back shares, so check the share count too.",
+  shares_outstanding:"How many shares exist. Falling (buybacks) flatters per-share numbers; quietly rising (dilution) costs existing owners — watch the trend.",
+  margin:"How many cents of profit the company keeps per dollar of sales. The trend matters more than the level, and it varies hugely by industry.",
+  cagr:"Average yearly growth over the period shown — it smooths out single-year noise."
+ },
+ mindset:[
+  "One number is never the answer. Look at the trend over several years, compare within the same industry, and check whether reported profit actually shows up as cash.",
+  "These are facts pulled from filings — not advice. Nothing here is a recommendation to buy or sell anything.",
+  "Be a little skeptical of confident-sounding rules — including these. Most stock 'tips' are noisier than they sound; the few that hold up (favour profitable, cash-generating companies bought at sane prices) are boring on purpose."
+ ],
+ sector:{
+  Financials:"Banks and insurers don't play by normal rules — skip P/E and profit margins. What matters is return on equity, the efficiency ratio (costs ÷ revenue), and the CET1 capital ratio, the safety cushion regulators watch.",
+  "Real Estate":"For REITs, look past earnings per share and P/E — heavy property depreciation makes them look worse than reality. The real measures are FFO and AFFO, the cash actually available to pay distributions.",
+  Energy:"Earnings swing with commodity prices, so a single year tells you little. Watch cash flow, debt, and — uniquely — the oil & gas reserves the company has left in the ground.",
+  Materials:"Mining and materials earnings ride the commodity cycle. Focus on cash flow, debt, and production costs rather than any one year's profit.",
+  "Information Technology":"For tech — especially younger names — watch revenue growth, gross margin, and cash burn (is it running out of money?). Check stock-based compensation too: a real cost that quietly dilutes shareholders.",
+  Utilities:"Utilities and pipelines carry lots of debt by design. Judge the dividend against cash flow, and watch debt and interest costs, which bite harder when rates rise.",
+  Communication:"Telecoms are capital-heavy and dividend-focused. Watch debt, and judge the dividend against free cash flow rather than reported profit.",
+  "Consumer Staples":"Steady, defensive businesses. Watch margins, sales trends, and whether the dividend is comfortably covered.",
+  "Consumer Discretionary":"Sales rise and fall with the economy here. Judge margins across a full cycle, not just a good year.",
+  Industrials:"Cyclical, capital-using businesses. Watch margins and debt across an economic cycle, and whether profit converts to cash.",
+  "Health Care":"Ranges from steady to speculative. For earlier-stage names, cash runway and the product pipeline matter more than today's profit.",
+  _default:"Compare this company against others in the same industry — a metric only means something next to its peers."
+ },
+ elsewhere:[
+  ["P/E (price ÷ earnings)","A quick gauge of how expensive a stock is — but it misleads for loss-making, cyclical, or heavily indebted firms. A low P/E is sometimes a trap, not a bargain."],
+  ["Dividend yield","Annual dividend ÷ price. An unusually high yield is often a warning the market expects a cut, not free income — check whether cash flow covers the dividend."],
+  ["Market cap","Share price × number of shares — the company's total market value, and a better size gauge than the share price alone."]
+ ]
+};
+function closePop(){const b=document.querySelector('.pop-back');if(b)b.remove();}
+function showTip(anchor,title,body){
+ closePop();
+ const back=el('div','pop-back');back.onclick=closePop;
+ const p=el('div','pop');p.innerHTML=(title?`<div class="pt">${title}</div>`:'')+body;p.onclick=e=>e.stopPropagation();
+ back.appendChild(p);document.body.appendChild(back);
+ const r=anchor.getBoundingClientRect(),pw=p.offsetWidth,ph=p.offsetHeight,vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+ let left=Math.min(r.left,vw-pw-10);left=Math.max(8,left);
+ let top=r.bottom+8;if(r.bottom+ph+12>vh)top=Math.max(8,r.top-ph-8);
+ p.style.left=(left+window.scrollX)+'px';p.style.top=(top+window.scrollY)+'px';
+}
+document.addEventListener('click',function(e){const q=e.target.closest('.qm[data-tk]');if(q){e.stopPropagation();const k=q.getAttribute('data-tk');showTip(q,q.getAttribute('data-tt')||METRIC_LABEL[k]||'',GUIDE.metric[k]||'');}});
+function openGuide(){
+ let back=document.querySelector('.drawer-back');
+ if(!back){back=el('div','drawer-back');back.onclick=closeGuide;document.body.appendChild(back);
+  const d=el('div','drawer');d.onclick=e=>e.stopPropagation();d.innerHTML=guideHtml();document.body.appendChild(d);back._d=d;}
+ requestAnimationFrame(()=>{back.classList.add('show');back._d.classList.add('show');});
+}
+function closeGuide(){const back=document.querySelector('.drawer-back');if(!back)return;back.classList.remove('show');if(back._d)back._d.classList.remove('show');setTimeout(()=>back.remove(),300);}
+function guideHtml(){
+ const mind=GUIDE.mindset.map(x=>`<div class="gmind">${x}</div>`).join('');
+ const order=['revenue','gross_profit','operating_income','net_income','cash_from_ops','eps_diluted','shares_outstanding','assets','equity','cash'];
+ const gloss=order.map(k=>`<div class="grow"><div class="gk">${METRIC_LABEL[k]}</div><div>${GUIDE.metric[k]}</div></div>`).join('');
+ const secs=Object.entries(GUIDE.sector).filter(([k])=>k!=='_default').map(([k,v])=>`<div class="grow"><div class="gk"><span class="sw" style="background:${secColor(k)}"></span>${k}</div><div>${v}</div></div>`).join('');
+ const els=GUIDE.elsewhere.map(([k,v])=>`<div class="grow"><div class="gk">${k}</div><div>${v}</div></div>`).join('');
+ return `<span class="dclose" onclick="closeGuide()">close ✕</span>
+  <h2>How to read these numbers</h2>
+  <div class="dsub">A plain-language field guide — what the figures mean, and what experts say actually matters.</div>
+  <div class="gsec">First, the mindset</div>${mind}
+  <div class="gsec">What each number means</div>${gloss}
+  <div class="gsec">It depends on the industry</div>${secs}
+  <div class="gsec">Numbers you'll meet elsewhere</div>${els}
+  <div class="gnote">Distilled from value investors (Buffett, Graham, Lynch), the CFA curriculum, and academic finance — then trimmed to what holds up. The honest meta-lesson from that research: most stock 'rules' are weaker than they sound, so treat every confident tip — including these — with a pinch of salt. Facts here come from filings; none of it is investment advice.</div>`;
+}
+function cashFlag(c){
+ if(c.sec==='Financials'||c.sec==='Real Estate')return null;
+ const ni=annuals(c.series.net_income||[]),cf=annuals(c.series.cash_from_ops||[]);
+ if(ni.length<2||cf.length<2)return null;
+ const cfm={};cf.forEach(p=>cfm[p[0]]=p[1]);
+ const common=ni.filter(p=>cfm[p[0]]!=null);if(common.length<2)return null;
+ const last=common[common.length-1],y=last[0],niv=last[1],cfv=cfm[y];
+ if(niv==null||cfv==null||niv<=0||cfv>=niv*0.75)return null;
+ const l3=common.slice(-3),cnt=l3.filter(p=>p[1]>cfm[p[0]]).length;
+ return {year:y,ni:niv,cf:cfv,cnt:cnt,n:l3.length};
+}
 function cleanP(p){const m=p.match(/^CY(\d{4})(Q\d)?I?$/);if(!m)return p;return m[2]?("’"+m[1].slice(2)+" "+m[2].toLowerCase()):m[1];}
 
 /* ---- analytics helpers ---- */
@@ -369,6 +490,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 /* ---- theme ---- */
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);$('#themelab').textContent=t==='ledger'?'Terminal mode':'Ledger mode';}
 $('#themebtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme');setTheme(cur==='ledger'?'terminal':'ledger');if(S.view==='companies'&&S.sel)drawDetail();if(S.view==='rankings')render();if(S.view==='compare')render();};
+$('#guidebtn').onclick=openGuide;
 
 /* ---- header ---- */
 $('#dateline').innerHTML='PROJECTED FROM CHAIN<br>'+new Date().toISOString().slice(0,10)+'<br>READ-ONLY';
@@ -449,18 +571,29 @@ function companyDetail(c){
  ab.onclick=()=>{const i=S.compare.indexOf(c.t);if(i>-1)S.compare.splice(i,1);else if(S.compare.length<4)S.compare.push(c.t);else{toast('Compare holds up to 4');return;}buildTabs();ab.classList.toggle('in',S.compare.includes(c.t));ab.textContent=S.compare.includes(c.t)?'✓ in compare':'+ compare';writeHash();};
  head.appendChild(ab);w.appendChild(head);
 
+ // sector intelligence note
+ const sn=GUIDE.sector[c.sec]||GUIDE.sector._default;
+ if(sn){const sne=el('div','secnote');
+  sne.innerHTML=`<span class="si" style="background:${secColor(c.sec)}"></span><div><b>How to read a company like this —</b> ${sn} <span class="qm gq" title="Open the full field guide">?</span></div>`;
+  sne.querySelector('.gq').onclick=e=>{e.stopPropagation();openGuide();};w.appendChild(sne);}
+ // earnings-quality (cash vs profit) flag
+ const cf=cashFlag(c);
+ if(cf){const qf=el('div','qflag');
+  qf.innerHTML=`<span class="qi">⚑</span><div><b>Worth a closer look:</b> in ${cf.year}, reported profit (${fmtVal(cf.ni,c.cur)}) ran well above the cash the business actually generated (${fmtVal(cf.cf,c.cur)})${cf.cnt>1?` — and ${cf.cnt} of the last ${cf.n} years show the same`:''}. Profit running above cash isn't automatically a problem, but when it persists it can mean earnings are flattered by accounting. A prompt to read the cash-flow statement, not a verdict. <span class="qm gq2" title="Why this matters">?</span></div>`;
+  qf.querySelector('.gq2').onclick=e=>{e.stopPropagation();showTip(e.target,'Cash vs. profit',GUIDE.metric.cash_from_ops);};w.appendChild(qf);}
+
  // KPIs
  const rev=c.series.revenue||[],ni=c.series.net_income||[];
  const kp=el('div','kpis');
  const laRev=latestAnnual(rev),laNi=latestAnnual(ni);
  const g=yoy(rev),cg=cagr(rev);
  const margin=(laRev&&laNi&&laRev[1])?laNi[1]/laRev[1]:null;
- function kpi(l,v,sub,subcls){return `<div class="kpi"><div class="kl">${l}</div><div class="kv">${v}</div>${sub?`<div class="kvm ${subcls||''}">${sub}</div>`:'<div class="deriv">computed live</div>'}</div>`;}
+ function kpi(l,v,sub,subcls,tk){const help=tk?` <span class="qm" data-tk="${tk}" data-tt="${(METRIC_LABEL[tk]||l)}">?</span>`:'';return `<div class="kpi"><div class="kl">${l}${help}</div><div class="kv">${v}</div>${sub?`<div class="kvm ${subcls||''}">${sub}</div>`:'<div class="deriv">computed live</div>'}</div>`;}
  let kh='';
- if(laRev)kh+=kpi('Revenue · '+laRev[0],fmtVal(laRev[1],c.cur),g!=null?pct(g)+' YoY':'',g!=null?(g>=0?'up':'down'):'');
- if(margin!=null)kh+=kpi('Net margin',(margin*100).toFixed(1)+'%','derived','deriv');
- if(c.latest.assets)kh+=kpi('Total assets',fmtVal(c.latest.assets[1],c.latest.assets[3]),c.latest.assets[0],'deriv');
- if(cg!=null)kh+=kpi('Revenue CAGR',pct(cg),(annuals(rev).length-1)+'-yr',cg>=0?'up deriv':'down deriv');
+ if(laRev)kh+=kpi('Revenue · '+laRev[0],fmtVal(laRev[1],c.cur),g!=null?pct(g)+' YoY':'',g!=null?(g>=0?'up':'down'):'','revenue');
+ if(margin!=null)kh+=kpi('Net margin',(margin*100).toFixed(1)+'%','derived','deriv','margin');
+ if(c.latest.assets)kh+=kpi('Total assets',fmtVal(c.latest.assets[1],c.latest.assets[3]),c.latest.assets[0],'deriv','assets');
+ if(cg!=null)kh+=kpi('Revenue CAGR',pct(cg),(annuals(rev).length-1)+'-yr',cg>=0?'up deriv':'down deriv','cagr');
  kp.innerHTML=kh;if(kh)w.appendChild(kp);
 
  // chart
@@ -491,7 +624,7 @@ function companyDetail(c){
  t.innerHTML='<tr><th>Item</th><th>Period</th><th style="text-align:right">Value</th><th>Evidence</th><th></th></tr>';
  HEADLINE.forEach(m=>{const L=c.latest[m];if(!L)return;const [period,value,vcad,unit,kind,strg]=L;
   const tr=el('tr');let cad=(vcad!=null&&unit==='USD')?`<span class="cad">≈ ${fmtVal(vcad,'CAD')}</span>`:'';
-  tr.innerHTML=`<td class="metric">${METRIC_LABEL[m]||m}</td><td class="period">${period}</td><td class="val">${fmtVal(value,unit)}${cad}</td><td>${tierChip(strg)}</td>
+  tr.innerHTML=`<td class="metric">${METRIC_LABEL[m]||m}<span class="qm" data-tk="${m}" data-tt="${METRIC_LABEL[m]||m}">?</span></td><td class="period">${period}</td><td class="val">${fmtVal(value,unit)}${cad}</td><td>${tierChip(strg)}</td>
    <td><div class="rowacts"><span class="copy-btn">copy</span><span class="trace-btn">trace ▸</span></div></td>`;
   const prov=c.prov[m];
   tr.querySelector('.trace-btn').onclick=function(){if(tr._o){tr._o.remove();tr._o=null;this.textContent='trace ▸';return;}
@@ -676,6 +809,8 @@ function renderAbout(V){const m=DATA.meta;const tiers=Object.entries(m.tiers).ma
   <p><span class="tier t-strong"><span class="dot"></span>Filed&nbsp;XBRL</span> straight from a machine-readable filing — strongest. &nbsp;<span class="tier t-derived"><span class="dot"></span>Derived</span> computed from filed numbers. &nbsp;<span class="tier t-weak"><span class="dot"></span>Issuer-stated</span> from a results release (companies filing only to Canada’s SEDAR+, unreadable by machine) — weaker, and flagged. &nbsp;<span class="tier t-none"><span class="dot"></span>No&nbsp;data</span> not reported.</p>
   <h3>Compare, rank, and check</h3>
   <p>Add companies to <b>Compare</b> for side-by-side figures and an overlaid chart. <b>Rankings</b> sorts the whole market by any metric, FX-normalized to CAD. <b>Restatements</b> shows where a past figure changed (that’s how the 2023 IFRS&nbsp;17 insurance overhaul surfaces) — and each restated figure carries a signed <span class="mono">current_validity_evaluated.v0</span> verdict on the chain (decision: <i>superseded</i>), not just a label. <b>Cross-checks</b> flags arithmetic that doesn’t reconcile.</p>
+  <h3>New to reading financials?</h3>
+  <p>There’s a plain-language <b>field guide</b> built in — what each number means, what actually matters, and how the right metrics change by industry (a bank isn’t read like a tech company). <span class="guidebtn" onclick="openGuide()"><span class="qm" style="margin:0">?</span> Open the field guide</span></p>
   <h3>Under the hood</h3>
   <p class="mono" style="font-size:13px;color:var(--ink2)">${m.claims.toLocaleString()} signed claims · ${m.evidence.toLocaleString()} source filings · ${m.restatements} restatements · ${m.cross_check_fail} failing checks · ${m.composite} S&amp;P/TSX Composite members.<br>evidence tiers — ${tiers}.</p>
   <p style="color:var(--faint);font-size:14px">Sources: SEC EDGAR XBRL, issuer results releases (SEDAR-only), iShares XIC roster, Bank of Canada FX. Read-only projection of the GCOS / Briefcase chain. Not investment advice.</p>`;
@@ -684,7 +819,7 @@ function renderAbout(V){const m=DATA.meta;const tiers=Object.entries(m.tiers).ma
 
 /* keyboard */
 document.addEventListener('keydown',e=>{if(e.key==='/'&&S.view==='companies'){const sb=$('#searchbox');if(sb&&document.activeElement!==sb){e.preventDefault();sb.focus();}}
- if(e.key==='Escape'){const sb=$('#searchbox');if(sb&&document.activeElement===sb){S.q='';sb.value='';sb.blur();render();}}});
+ if(e.key==='Escape'){closePop();closeGuide();const sb=$('#searchbox');if(sb&&document.activeElement===sb){S.q='';sb.value='';sb.blur();render();}}});
 
 render();
 </script>
