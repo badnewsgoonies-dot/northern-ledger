@@ -420,9 +420,9 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
   <header class="mast">
     <div class="mast-row">
       <div>
-        <div class="kicker">Established on a signed chain · evidence, not assertion</div>
+        <div class="kicker">Toronto Stock Exchange — company financials</div>
         <h1 class="title">The Northern&nbsp;Ledger</h1>
-        <div class="tag">Public companies of the Toronto Stock Exchange — every figure traced to the filing it came from, and signed so it can’t be quietly changed.</div>
+        <div class="tag">Public companies of the Toronto Stock Exchange — every figure traced back to the filing it came from.</div>
       </div>
       <div class="mast-right">
         <button class="guidebtn" id="guidebtn"><span class="qm" style="margin:0">?</span> How to read these numbers</button>
@@ -444,8 +444,7 @@ footer{margin-top:42px;padding-top:16px;border-top:1px solid var(--rule);font-fa
   <div id="view"></div>
 
   <footer>
-    THE NORTHERN LEDGER · read-only window onto the GCOS / Briefcase evidence substrate ·
-    figures are claims admitted to a signed, append-only chain and projected here ·
+    THE NORTHERN LEDGER · every figure traced back to the company filing it came from ·
     sources: SEC EDGAR XBRL (interlisted filers), issuer results releases (SEDAR-only), iShares XIC roster, Bank of Canada FX · not investment advice.
     <br><br><span style="opacity:.9">New here? The <b style="color:var(--ink2)">“How to read these numbers”</b> guide up top explains what each figure means and what actually matters. These are rules of thumb, not advice — treat confident tips, including ours, with healthy skepticism.</span>
   </footer>
@@ -607,9 +606,9 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 $('#guidebtn').onclick=openGuide;
 
 /* ---- header ---- */
-$('#dateline').innerHTML='PROJECTED FROM CHAIN<br>'+new Date().toISOString().slice(0,10)+'<br>READ-ONLY';
+$('#dateline').innerHTML='AS OF<br>'+new Date().toISOString().slice(0,10)+'<br>READ-ONLY';
 (function(){const m=DATA.meta,S2=$('#stats');
- [['companies',m.companies],['signed claims',m.claims.toLocaleString()],['source filings',m.evidence.toLocaleString()],
+ [['companies',m.companies],['figures',m.claims.toLocaleString()],['source filings',m.evidence.toLocaleString()],
   ['restatements tracked',m.restatements.toLocaleString()],['TSX Composite',m.composite]]
  .forEach(([l,v],i)=>{const s=el('div','stat rise');s.style.animationDelay=(i*40)+'ms';s.innerHTML=`<div class="v">${v}</div><div class="l">${l}</div>`;S2.appendChild(s);});})();
 
@@ -688,7 +687,7 @@ function companyDetail(c){
  const head=el('div','co-head');
  const inCmp=S.compare.includes(c.t);
  head.innerHTML=`<div><div class="co-name">${c.n}</div><div class="co-tk">${c.t}</div>
-   <div class="badges">${c.comp?'<span class="badge comp">S&amp;P/TSX Composite</span>':''}${c.sec?`<span class="badge">${c.sec}</span>`:''}<span class="badge">Reports in ${c.cur}</span><span class="badge">${c.std}</span><span class="badge">${c.nc.toLocaleString()} signed claims</span></div></div>`;
+   <div class="badges">${c.comp?'<span class="badge comp">S&amp;P/TSX Composite</span>':''}${c.sec?`<span class="badge">${c.sec}</span>`:''}<span class="badge">Reports in ${c.cur}</span><span class="badge">${c.std}</span><span class="badge">${c.nc.toLocaleString()} figures</span></div></div>`;
  const ab=el('button','addcmp'+(inCmp?' in':''));ab.textContent=inCmp?'✓ in compare':'+ compare';
  ab.onclick=()=>{const i=S.compare.indexOf(c.t);if(i>-1)S.compare.splice(i,1);else if(S.compare.length<4)S.compare.push(c.t);else{toast('Compare holds up to 4');return;}buildTabs();ab.classList.toggle('in',S.compare.includes(c.t));ab.textContent=S.compare.includes(c.t)?'✓ in compare':'+ compare';writeHash();};
  head.appendChild(ab);w.appendChild(head);
@@ -750,16 +749,16 @@ function companyDetail(c){
  }
 
  // figures
- const sh2=el('div','sec-h');sh2.innerHTML='<span>Latest reported figures</span><span class="deriv" style="color:var(--teal)">every figure is signed — tap “trace” to see its source ▸</span>';w.appendChild(sh2);
+ const sh2=el('div','sec-h');sh2.innerHTML='<span>Latest reported figures</span><span class="deriv" style="color:var(--teal)">tap “source” to open the filing each figure came from ▸</span>';w.appendChild(sh2);
  const t=el('table','fig figmain');
  t.innerHTML='<tr><th>Item</th><th>Period</th><th style="text-align:right">Value</th><th>Evidence</th><th></th></tr>';
  HEADLINE.forEach(m=>{const L=c.latest[m];if(!L)return;const [period,value,vcad,unit,kind,strg]=L;
   const tr=el('tr');let cad=(vcad!=null&&unit==='USD')?`<span class="cad">≈ ${fmtVal(vcad,'CAD')}</span>`:'';
   tr.innerHTML=`<td class="metric">${METRIC_LABEL[m]||m}<span class="qm" data-tk="${m}" data-tt="${METRIC_LABEL[m]||m}">?</span></td><td class="period">${period}</td><td class="val">${fmtVal(value,unit)}${cad}</td><td>${tierChip(strg)}</td>
-   <td><div class="rowacts"><span class="copy-btn">copy</span><span class="trace-btn">trace ▸</span></div></td>`;
+   <td><div class="rowacts"><span class="copy-btn">copy</span><span class="trace-btn">source ▸</span></div></td>`;
   const prov=c.prov[m];
-  tr.querySelector('.trace-btn').onclick=function(){if(tr._o){tr._o.remove();tr._o=null;this.textContent='trace ▸';return;}
-   const pr=el('tr','provrow'),td=el('td');td.colSpan=5;td.appendChild(provBlock(prov));pr.appendChild(td);tr.after(pr);tr._o=pr;this.textContent='trace ▾';};
+  tr.querySelector('.trace-btn').onclick=function(){if(tr._o){tr._o.remove();tr._o=null;this.textContent='source ▸';return;}
+   const pr=el('tr','provrow'),td=el('td');td.colSpan=5;td.appendChild(provBlock(prov));pr.appendChild(td);tr.after(pr);tr._o=pr;this.textContent='source ▾';};
   tr.querySelector('.copy-btn').onclick=function(){copyFigure(c,m,L,prov,this);};
   t.appendChild(tr);});
  w.appendChild(t);
@@ -767,7 +766,7 @@ function companyDetail(c){
  // restated / superseded figures for THIS company (drift -> current-validity verdict)
  const myRe=DATA.restatements.filter(r=>r[0]===c.t);
  if(myRe.length){
-  const sh3=el('div','sec-h');sh3.innerHTML='<span>Restated figures — current vs superseded</span><span class="deriv">current_validity verdict · on-chain</span>';w.appendChild(sh3);
+  const sh3=el('div','sec-h');sh3.innerHTML='<span>Restated figures — earlier vs current</span><span class="deriv">the company reported a different value in a later filing</span>';w.appendChild(sh3);
   const rt=el('table','fig');
   rt.innerHTML='<tr><th>Item</th><th>Period</th><th style="text-align:right">Was (superseded)</th><th></th><th style="text-align:right">Now (current)</th></tr>';
   myRe.slice(0,14).forEach(r=>{const [,,m,per,fv,tv]=r;const tr=el('tr');
@@ -782,16 +781,13 @@ function provBlock(p){const d=el('div','prov');if(!p){d.innerHTML='<span class="
  const [accn,url,gen,sig,content,signer,fact]=p;
  const link=url?`<a href="${url}" target="_blank" rel="noopener">open filing ↗</a>`:'issuer results release';
  d.innerHTML=`<div><span class="k">source</span> ${accn||'—'} &nbsp; ${link}</div>`+
-  `<div><span class="k">fact hash</span> ${fact||'—'}</div>`+
-  `<div><span class="k">on-chain</span> generation ${gen} &nbsp;·&nbsp; content ${content}…</div>`+
-  `<div><span class="k">signature</span> ${sig}… &nbsp;·&nbsp; by ${signer}…</div>`+
-  `<div class="verify">✓ signed (ed25519) — exactly what was admitted to the chain; tampering breaks the signature.</div>`;
+  `<div class="verify">As reported by the company in its regulatory filing. Open it to check the number yourself.</div>`;
  return d;}
 
 function copyFigure(c,m,L,prov,btn){
  const [period,value,vcad,unit]=L;const txt=`${c.n} (${c.t}) — ${METRIC_LABEL[m]} ${period}: ${fmtVal(value,unit)}`+
-  (prov?`\n  source: ${prov[0]||'issuer results'}${prov[1]?' '+prov[1]:''}\n  on-chain gen ${prov[2]}, ed25519 sig ${prov[3]}…, signer ${prov[5]}…`:'')+`\n  via The Northern Ledger (GCOS evidence chain)`;
- const done=()=>{btn.textContent='copied ✓';btn.classList.add('done');toast('Figure + provenance copied');setTimeout(()=>{btn.textContent='copy';btn.classList.remove('done');},1600);};
+  (prov?`\n  source: ${prov[0]||'issuer results'}${prov[1]?' '+prov[1]:''}`:'')+`\n  via The Northern Ledger`;
+ const done=()=>{btn.textContent='copied ✓';btn.classList.add('done');toast('Figure + source copied');setTimeout(()=>{btn.textContent='copy';btn.classList.remove('done');},1600);};
  try{navigator.clipboard.writeText(txt).then(done,()=>fallbackCopy(txt,done));}catch(e){fallbackCopy(txt,done);}
 }
 function fallbackCopy(txt,done){try{const ta=el('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();done();}catch(e){toast('Copy not available here');}}
@@ -934,17 +930,17 @@ function renderAbout(V){const m=DATA.meta;const tiers=Object.entries(m.tiers).ma
  a.innerHTML=`<h3>What is this?</h3>
   <p>A window onto <b>${m.companies} public companies</b> connected to the Toronto Stock Exchange. For each one you can see its headline financials, an interactive quarterly chart, and — the part that matters — <span class="hl">exactly where every number came from</span>.</p>
   <h3>Why it’s different</h3>
-  <p>Most finance sites just show you a number. Here every figure is a <b>claim</b> admitted to a signed, append-only ledger together with its evidence. Click <span class="mono">trace ▸</span> on any figure to see the source filing (linked), the on-chain position, the content hash, and the cryptographic signature proving the number hasn’t been altered since it was recorded. The <span class="mono">copy</span> button copies the figure <i>with</i> its provenance, so you can paste a number anywhere and it carries its receipt.</p>
-  <p>It’s deliberately <i>not</i> a “trust us” machine — it’s the opposite: a way to make every outside number <b>checkable</b>.</p>
+  <p>Most finance sites just show you a number. Here you can click <span class="mono">source ▸</span> on any figure to open the actual filing it came from (linked), so you can check it yourself. The <span class="mono">copy</span> button copies the figure together with its source, so a number you paste anywhere carries where it came from.</p>
+  <p>Every number here links back to the document it came from, so you never have to take it on faith.</p>
   <h3>The colours</h3>
   <p><span class="tier t-strong"><span class="dot"></span>Filed&nbsp;XBRL</span> straight from a machine-readable filing — strongest. &nbsp;<span class="tier t-derived"><span class="dot"></span>Derived</span> computed from filed numbers. &nbsp;<span class="tier t-weak"><span class="dot"></span>Issuer-stated</span> from a results release (companies filing only to Canada’s SEDAR+, unreadable by machine) — weaker, and flagged. &nbsp;<span class="tier t-none"><span class="dot"></span>No&nbsp;data</span> not reported.</p>
   <h3>Compare, rank, and check</h3>
-  <p>Add companies to <b>Compare</b> for side-by-side figures and an overlaid chart. <b>Rankings</b> sorts the whole market by any metric, FX-normalized to CAD. <b>Restatements</b> shows where a past figure changed (that’s how the 2023 IFRS&nbsp;17 insurance overhaul surfaces) — and each restated figure carries a signed <span class="mono">current_validity_evaluated.v0</span> verdict on the chain (decision: <i>superseded</i>), not just a label. <b>Cross-checks</b> flags arithmetic that doesn’t reconcile.</p>
+  <p>Add companies to <b>Compare</b> for side-by-side figures and an overlaid chart. <b>Rankings</b> sorts the whole market by any metric, FX-normalized to CAD. <b>Restatements</b> shows where a company reported a different value for the same period in a later filing (that’s how the 2023 IFRS&nbsp;17 insurance overhaul surfaces). <b>Cross-checks</b> flags arithmetic that doesn’t reconcile.</p>
   <h3>New to reading financials?</h3>
   <p>There’s a plain-language <b>field guide</b> built in — what each number means, what actually matters, and how the right metrics change by industry (a bank isn’t read like a tech company). <span class="guidebtn" onclick="openGuide()"><span class="qm" style="margin:0">?</span> Open the field guide</span></p>
-  <h3>Under the hood</h3>
-  <p class="mono" style="font-size:13px;color:var(--ink2)">${m.claims.toLocaleString()} signed claims · ${m.evidence.toLocaleString()} source filings · ${m.restatements} restatements · ${m.cross_check_fail} failing checks · ${m.composite} S&amp;P/TSX Composite members.<br>evidence tiers — ${tiers}.</p>
-  <p style="color:var(--faint);font-size:14px">Sources: SEC EDGAR XBRL, issuer results releases (SEDAR-only), iShares XIC roster, Bank of Canada FX. Read-only projection of the GCOS / Briefcase chain. Not investment advice.</p>`;
+  <h3>By the numbers</h3>
+  <p class="mono" style="font-size:13px;color:var(--ink2)">${m.claims.toLocaleString()} figures · ${m.evidence.toLocaleString()} source filings · ${m.restatements} restatements · ${m.cross_check_fail} failing checks · ${m.composite} S&amp;P/TSX Composite members.<br>data-quality tiers — ${tiers}.</p>
+  <p style="color:var(--faint);font-size:14px">Sources: SEC EDGAR XBRL, issuer results releases (SEDAR-only), iShares XIC roster, Bank of Canada FX. Not investment advice.</p>`;
  V.appendChild(a);
 }
 
