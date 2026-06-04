@@ -222,7 +222,8 @@ table.fig th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing
 .val .cad{display:block;font-weight:400;font-size:11px;color:var(--faint)}
 .rowacts{display:flex;gap:12px;justify-content:flex-end}
 .trace-btn,.copy-btn{font-family:"IBM Plex Mono",monospace;font-size:11px;cursor:pointer;white-space:nowrap}
-.trace-btn{color:var(--teal);border-bottom:1px dotted var(--teal)}
+.trace-btn{color:var(--teal);border:1px solid var(--teal);border-radius:14px;padding:3px 11px;font-weight:500}
+.trace-btn:hover{background:var(--teal);color:var(--paper)}html[data-theme="terminal"] .trace-btn:hover{color:#0c141c}
 .copy-btn{color:var(--faint);border-bottom:1px dotted var(--faint)}
 .copy-btn.done{color:var(--pine);border-color:var(--pine)}
 .prov{background:var(--paper2);border-left:3px solid var(--accent);padding:12px 14px;margin:2px 0 6px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.75;border-radius:0 4px 4px 0}
@@ -389,7 +390,8 @@ const GUIDE={
   eps_diluted:"Profit per share, counting all shares that could exist. Can rise from real growth — or just from buying back shares, so check the share count too.",
   shares_outstanding:"How many shares exist. Falling (buybacks) flatters per-share numbers; quietly rising (dilution) costs existing owners — watch the trend.",
   margin:"How many cents of profit the company keeps per dollar of sales. The trend matters more than the level, and it varies hugely by industry.",
-  cagr:"Average yearly growth over the period shown — it smooths out single-year noise."
+  cagr:"Average yearly growth over the period shown — it smooths out single-year noise.",
+  roe:"Profit earned on shareholders' money — the key profitability gauge for banks. Higher is better, but very high ROE can also come from heavy borrowing, so read it alongside debt."
  },
  mindset:[
   "One number is never the answer. Look at the trend over several years, compare within the same industry, and check whether reported profit actually shows up as cash.",
@@ -500,7 +502,7 @@ $('#dateline').innerHTML='PROJECTED FROM CHAIN<br>'+new Date().toISOString().sli
  .forEach(([l,v],i)=>{const s=el('div','stat rise');s.style.animationDelay=(i*40)+'ms';s.innerHTML=`<div class="v">${v}</div><div class="l">${l}</div>`;S2.appendChild(s);});})();
 
 /* ---- nav ---- */
-const VIEWS=[['companies','Companies'],['compare','Compare'],['restatements','Restatements'],['checks','Cross-checks'],['rankings','Rankings'],['about','About']];
+const VIEWS=[['companies','Companies'],['rankings','Rankings'],['compare','Compare'],['restatements','Restatements'],['checks','Cross-checks'],['about','About']];
 const tabsEl=$('#tabs');
 function buildTabs(){tabsEl.innerHTML='';VIEWS.forEach(([k,l])=>{const t=el('div','tab'+(k===S.view?' on':''));t.innerHTML=l+(k==='compare'&&S.compare.length?`<span class="pill">${S.compare.length}</span>`:'');t.onclick=()=>{S.view=k;render();};tabsEl.appendChild(t);});}
 
@@ -594,6 +596,15 @@ function companyDetail(c){
  if(margin!=null)kh+=kpi('Net margin',(margin*100).toFixed(1)+'%','derived','deriv','margin');
  if(c.latest.assets)kh+=kpi('Total assets',fmtVal(c.latest.assets[1],c.latest.assets[3]),c.latest.assets[0],'deriv','assets');
  if(cg!=null)kh+=kpi('Revenue CAGR',pct(cg),(annuals(rev).length-1)+'-yr',cg>=0?'up deriv':'down deriv','cagr');
+ // the metric that matters most for this kind of company
+ if(c.sec==='Financials'){
+  const niA=annualLastV(c,'net_income');let eq=null;
+  if(niA){const w4=niA[0]+'Q4I',wa=niA[0]+'I';(c.series.equity||[]).forEach(p=>{if(p[0]===w4||p[0]===wa)eq=p[1];});if(eq==null&&c.latest.equity)eq=c.latest.equity[1];}
+  if(niA&&eq)kh+=kpi('Return on equity',(niA[1]/eq*100).toFixed(1)+'%','net income ÷ equity','deriv','roe');
+ }else{
+  const cfA=annualLastV(c,'cash_from_ops');
+  if(cfA)kh+=kpi('Operating cash flow · '+cfA[0],fmtVal(cfA[1],c.cur),'the cash test','deriv','cash_from_ops');
+ }
  kp.innerHTML=kh;if(kh)w.appendChild(kp);
 
  // chart
@@ -619,7 +630,7 @@ function companyDetail(c){
  }
 
  // figures
- const sh2=el('div','sec-h');sh2.innerHTML='<span>Latest reported figures</span><span class="deriv">click trace for source + signature</span>';w.appendChild(sh2);
+ const sh2=el('div','sec-h');sh2.innerHTML='<span>Latest reported figures</span><span class="deriv" style="color:var(--teal)">every figure is signed — tap “trace” to see its source ▸</span>';w.appendChild(sh2);
  const t=el('table','fig');
  t.innerHTML='<tr><th>Item</th><th>Period</th><th style="text-align:right">Value</th><th>Evidence</th><th></th></tr>';
  HEADLINE.forEach(m=>{const L=c.latest[m];if(!L)return;const [period,value,vcad,unit,kind,strg]=L;
